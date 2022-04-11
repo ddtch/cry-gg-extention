@@ -8,7 +8,6 @@ import ReactPlayer from 'react-player';
 
 const MainWindowHolder = styled.div`
   overflow-y: auto;
-  max-height: 380px;
 `;
 
 const Amount = styled.div`
@@ -57,10 +56,15 @@ const WhiteList = styled(AssetsList)`
 const WhiteListItem = styled.li`
   display: flex;
   align-items: center;
-  width: 75%;
+  width: 100%;
   justify-content: space-between;
-  > span {
-    font-size: 14px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(255,255,255, .1);
+  padding-bottom: 10px;
+  .whitelist-titles {
+    > span {
+      font-size: 14px;
+    }
   }
 `;
 
@@ -70,7 +74,7 @@ export const assets = [
   {
     src: "./assets/01-eth.svg",
     id: 1,
-    amount: 1.2523805,
+    amount: 0.000342,
     cur: 'ETH'
   },
   {
@@ -169,9 +173,12 @@ export const PopupComponent = () => {
       <h4>Whitelist</h4>
       <WhiteList>
         {
-          mockGames.map((el, i) => <WhiteListItem key={el.id}>
-            <span>{el.title}</span>
-
+          mockGames.slice(0, 1).map((el, i) => <WhiteListItem key={el.id}>
+            <div className="whitelist-titles">
+              <span>{el.title}</span>
+              <br/>
+              <span style={{opacity: .7, fontSize: 10}}>Allow all game transactions and whitelist game</span>
+            </div>
             <input className="tgl tgl-light" id={el.id}
                    type="checkbox"/>
             <label className="tgl-btn" htmlFor={el.id} />
