@@ -5,9 +5,279 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sticky Notes</title>
     <style>
+      #popup-root{
+        overflow: hidden;
+      }
       body {
-        height: 400px;
-        width: 400px;
+        /*height: 320px;*/
+        width: 380px;
+        margin: 0;
+        background: #343447;
+        color: #ebe4de;
+        border: 4px solid #dc6e46;
+        padding: 10px;
+        box-sizing: border-box;
+        border-radius: 12px;
+      }
+      #amount {
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+      }
+      #amount > input {
+        margin-bottom: 0;
+      }
+
+      #amount strong {
+        font-size: 14px;
+      }
+
+      #card-cvc {
+        width: 60px;
+        margin-bottom: 25px;
+      }
+
+      #card-front {
+        position: absolute;
+        background-color: #1a1b41;
+        width: 100%;
+        height: 210px;
+        border-radius: 6px;
+        padding: 6px 14px;
+        box-sizing: border-box;
+        font-size: 10px;
+        letter-spacing: 1px;
+        font-weight: 300;
+        color: white;
+      }
+
+      #card-image {
+        float: right;
+        height: 100%;
+      }
+
+      #card-image i {
+        font-size: 40px;
+      }
+
+      #card-month {
+        width: 45% !important;
+      }
+
+      #card-number,
+      #card-holder {
+        width: 100%;
+      }
+
+      #number-container {
+        width: 70%;
+      }
+
+      #card-stripe {
+        width: 100%;
+        height: 55px;
+        background-color: #3d5266;
+        position: absolute;
+        right: 0;
+      }
+
+      #card-success {
+        color: #00b349;
+      }
+
+      #card-token {
+        display: none;
+      }
+
+      #card-year {
+        width: 45%;
+        float: right;
+      }
+
+      #cardholder-container {
+        width: 60%;
+        display: inline-block;
+      }
+
+      #cvc-container {
+        padding-left: 20px;
+        box-sizing: border-box;
+      }
+
+      #cvc-container label {
+        width: 100%;
+      }
+
+      #cvc-container p {
+        font-size: 6px;
+        text-transform: uppercase;
+        opacity: 0.6;
+        letter-spacing: .5px;
+      }
+
+      #form-container {
+        margin: auto;
+        width: 100%;
+        height: 210px;
+        position: relative;
+        box-shadow: 0 0 12px 120px rgb(0 0 0 / 80%);
+      }
+
+      #form-errors {
+        color: #eb0000;
+      }
+
+      #form-errors,
+      #card-success {
+        background-color: white;
+        width: 500px;
+        margin: 0 auto 10px;
+        height: 50px;
+        border-radius: 8px;
+        padding: 0 20px;
+        font-weight: 400;
+        box-sizing: border-box;
+        line-height: 46px;
+        letter-spacing: .5px;
+        text-transform: none;
+      }
+
+      #exp-container {
+        margin-left: 10px;
+        width: 32%;
+        display: inline-block;
+        float: right;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      #image-container {
+        width: 100%;
+        position: relative;
+        height: 55px;
+        margin-bottom: 5px;
+        line-height: 55px;
+      }
+
+      #image-container img {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      input {
+        border: none;
+        outline: none;
+        background-color: #586692;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 10px;
+        margin: 0 0 25px;
+        color: white;
+        font-size: 10px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        font-family: lato, 'helvetica-light', 'sans-serif';
+      }
+
+      input::-webkit-input-placeholder {
+        color: #fff;
+        opacity: 0.7;
+        font-family: lato, 'helvetica-light', 'sans-serif';
+        font-weight: 300;
+        font-size: 10px;
+      }
+
+      input:-moz-placeholder {
+        color: #fff;
+        opacity: 0.7;
+        font-family: lato, 'helvetica-light', 'sans-serif';
+        font-weight: 300;
+        font-size: 10px;
+      }
+
+      input::-moz-placeholder {
+        color: #fff;
+        opacity: 0.7;
+        font-family: lato, 'helvetica-light', 'sans-serif';
+        font-weight: 300;
+        font-size: 10px;
+      }
+
+      input:-ms-input-placeholder {
+        color: #fff;
+        opacity: 0.7;
+        font-family: lato, 'helvetica-light', 'sans-serif';
+        font-weight: 300;
+        font-size: 10px;
+      }
+
+      input.invalid {
+        border: solid 2px #eb0000;
+        height: 34px;
+      }
+
+      label {
+        display: block;
+        margin: 0;
+        transform: scale(0.75);
+      }
+      .tgl {
+        display: none;
+      }
+      .tgl, .tgl:after, .tgl:before, .tgl *, .tgl *:after, .tgl *:before, .tgl + .tgl-btn {
+        box-sizing: border-box;
+      }
+      .tgl::-moz-selection, .tgl:after::-moz-selection, .tgl:before::-moz-selection, .tgl *::-moz-selection, .tgl *:after::-moz-selection, .tgl *:before::-moz-selection, .tgl + .tgl-btn::-moz-selection {
+        background: none;
+      }
+      .tgl::selection, .tgl:after::selection, .tgl:before::selection, .tgl *::selection, .tgl *:after::selection, .tgl *:before::selection, .tgl + .tgl-btn::selection {
+        background: none;
+      }
+      .tgl + .tgl-btn {
+        outline: 0;
+        display: block;
+        width: 4em;
+        height: 2em;
+        position: relative;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      .tgl + .tgl-btn:after, .tgl + .tgl-btn:before {
+        position: relative;
+        display: block;
+        content: "";
+        width: 50%;
+        height: 100%;
+      }
+      .tgl + .tgl-btn:after {
+        left: 0;
+      }
+      .tgl + .tgl-btn:before {
+        display: none;
+      }
+      .tgl:checked + .tgl-btn:after {
+        left: 50%;
+      }
+
+      .tgl-light + .tgl-btn {
+        background: #848484;
+        border-radius: 2em;
+        padding: 2px;
+        transition: all 0.4s ease;
+      }
+      .tgl-light + .tgl-btn:after {
+        border-radius: 50%;
+        background: #fff;
+        transition: all 0.2s ease;
+      }
+      .tgl-light:checked + .tgl-btn {
+        background: #34d25f;
       }
     </style>
   </head>

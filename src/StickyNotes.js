@@ -44,9 +44,10 @@ const StickyNotes = () => {
   // listen for shift + click to add note
   useEffect(() => {
     function clickListener(e) {
-      if (e.shiftKey) {
-        setNotes((prevNotes) => [...prevNotes, { x: e.pageX, y: e.pageY }]);
-      }
+      // if (e.shiftKey) {
+      //   setNotes((prevNotes) => [...prevNotes, { x: e.pageX, y: e.pageY }]);
+      // }
+      console.log(e);
     }
     document.addEventListener("click", clickListener);
     return () => document.removeEventListener("click", clickListener);
@@ -54,20 +55,20 @@ const StickyNotes = () => {
 
   // get notes if they're there
   useEffect(() => {
-    if (!localMode) {
-      chrome.storage.local.get(url, (items) => {
-        items[url] && setNotes(items[url]);
-      });
-    }
+    // if (!localMode) {
+    //   chrome.storage.local.get(url, (items) => {
+    //     items[url] && setNotes(items[url]);
+    //   });
+    // }
   }, []);
 
   // set()
   useEffect(() => {
-    if (!localMode) {
-      notes.length > 0
-        ? chrome.storage.local.set({ [url]: notes })
-        : chrome.storage.local.remove(url);
-    }
+    // if (!localMode) {
+    //   notes.length > 0
+    //     ? chrome.storage.local.set({ [url]: notes })
+    //     : chrome.storage.local.remove(url);
+    // }
   }, [notes]);
 
   return (
